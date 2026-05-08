@@ -988,6 +988,153 @@
     text-align: center;
   }
 
+  /* Instagram message modal */
+  .ig-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,8,8,0.85);
+    backdrop-filter: blur(12px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+  .ig-modal-overlay.visible { display: flex; }
+  .ig-modal {
+    background: linear-gradient(180deg, #1A1410, #0A0808);
+    border: 1px solid rgba(201,169,97,0.3);
+    border-radius: 24px;
+    padding: 28px 24px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(201,169,97,0.15);
+  }
+  .ig-modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #F5EBD3;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .ig-modal-title em {
+    font-style: italic;
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .ig-modal-subtitle {
+    font-size: 13px;
+    color: #A8A092;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .ig-message-box {
+    background: rgba(201,169,97,0.06);
+    border: 1px solid rgba(201,169,97,0.2);
+    border-radius: 14px;
+    padding: 16px 18px;
+    color: #F5EBD3;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  .ig-copy-btn {
+    width: 100%;
+    padding: 15px;
+    background: rgba(201,169,97,0.1);
+    border: 1px solid rgba(201,169,97,0.4);
+    border-radius: 12px;
+    color: #C9A961;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .ig-copy-btn:hover {
+    background: rgba(201,169,97,0.18);
+  }
+  .ig-copy-btn.copied {
+    background: rgba(120,200,120,0.1);
+    border-color: rgba(120,200,120,0.4);
+    color: #88D080;
+  }
+  .ig-open-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #E8C77C 0%, #C9A961 100%);
+    color: #0A0808;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .ig-open-btn:active { transform: scale(0.98); }
+  .ig-cancel-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: none;
+    color: #6B6356;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .ig-cancel-btn:hover { color: #A8A092; }
+
+  /* Back button */
+  .back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201,169,97,0.15), rgba(201,169,97,0.04));
+    border: 1px solid rgba(201,169,97,0.25);
+    color: #C9A961;
+    cursor: pointer;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  .back-btn.visible { display: flex; }
+  .back-btn:hover {
+    background: linear-gradient(135deg, rgba(201,169,97,0.25), rgba(201,169,97,0.08));
+    transform: scale(1.05);
+  }
+  .back-btn:active { transform: scale(0.95); }
+
   /* Toast notification */
   .toast {
     position: fixed;
@@ -1055,6 +1202,9 @@
   <span class="music-icon-pause">❚❚</span>
 </button>
 
+<!-- Back button -->
+<button class="back-btn" id="backBtn" onclick="goBack()">←</button>
+
 <!-- Background music (royalty-free ethno-ambient style) -->
 <audio id="bgMusic" loop preload="auto">
   <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_347111d654.mp3" type="audio/mpeg">
@@ -1069,6 +1219,28 @@
 <div class="toast" id="toast">
   <span class="toast-icon">✓</span>
   <span id="toastText">Сообщение скопировано — вставьте в директ</span>
+</div>
+
+<!-- Instagram message modal -->
+<div class="ig-modal-overlay" id="igModal">
+  <div class="ig-modal">
+    <div class="ig-modal-title">Сообщение для <em>Эльвиры</em></div>
+    <div class="ig-modal-subtitle">Скопируй текст и вставь в директ — Эльвира сразу увидит твой результат</div>
+    <div class="ig-message-box" id="igMessageBox"></div>
+    <button class="ig-copy-btn" id="igCopyBtn" onclick="copyIgMessage()">
+      <span id="igCopyIcon">⧉</span>
+      <span id="igCopyText">СКОПИРОВАТЬ ТЕКСТ</span>
+    </button>
+    <button class="ig-open-btn" onclick="openInstagramApp()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+      Открыть Instagram
+    </button>
+    <button class="ig-cancel-btn" onclick="closeIgModal()">ОТМЕНА</button>
+  </div>
 </div>
 
 <div class="app">
@@ -1355,24 +1527,106 @@
   let userAnswers = [];
   let userGoals = [];
   let userName = '';
+  let screenHistory = ['welcome'];
 
-  function goTo(screen) {
+  function goTo(screen, addToHistory = true) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-' + screen).classList.add('active');
     window.scrollTo(0, 0);
+
+    if (addToHistory && screenHistory[screenHistory.length - 1] !== screen) {
+      screenHistory.push(screen);
+    }
+
+    // Show back button on all screens except welcome and loading
+    const backBtn = document.getElementById('backBtn');
+    if (screen === 'welcome' || screen === 'loading') {
+      backBtn.classList.remove('visible');
+    } else {
+      backBtn.classList.add('visible');
+    }
+  }
+
+  function goBack() {
+    // Special case: from question screen, go back to previous question
+    const currentScreen = screenHistory[screenHistory.length - 1];
+
+    if (currentScreen === 'question' && currentQ > 0) {
+      // Go back one question instead of leaving the screen
+      currentQ--;
+      userAnswers.pop();
+      renderQuestion();
+      // Restore previous selection visually
+      const prevAnswer = userAnswers[currentQ];
+      if (prevAnswer) {
+        setTimeout(() => {
+          const buttons = document.querySelectorAll('.answer-btn');
+          const idx = answers.findIndex(a => a.val === prevAnswer.val);
+          if (buttons[idx]) buttons[idx].classList.add('selected');
+        }, 50);
+      }
+      return;
+    }
+
+    if (currentScreen === 'question' && currentQ === 0) {
+      // From first question, go back to name screen
+      screenHistory.pop();
+      goTo('name', false);
+      return;
+    }
+
+    if (currentScreen === 'result') {
+      // From result, restart everything
+      restartTest();
+      return;
+    }
+
+    // Default: pop current screen, go to previous
+    if (screenHistory.length > 1) {
+      screenHistory.pop();
+      const prev = screenHistory[screenHistory.length - 1];
+      goTo(prev, false);
+    }
   }
 
   // Combined action: start music + go to name screen
   function startJourney() {
-    // Try to start music (this is a user gesture, so it should work)
+    // Reliable mobile autoplay: start muted first (always allowed), then unmute
+    const audio = document.getElementById('bgMusic');
+    audio.volume = 0;
+    audio.muted = false;
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        // Gradually fade in volume
+        let vol = 0;
+        const fadeIn = setInterval(() => {
+          vol += 0.025;
+          if (vol >= 0.25) {
+            vol = 0.25;
+            clearInterval(fadeIn);
+          }
+          audio.volume = vol;
+        }, 100);
+        document.getElementById('musicToggle').classList.add('playing');
+        musicStarted = true;
+      }).catch(e => {
+        console.log('Audio autoplay blocked:', e);
+        // Fallback: try once more on next user interaction
+        document.addEventListener('click', tryPlayMusicOnce, { once: true });
+      });
+    }
+
+    goTo('name');
+  }
+
+  function tryPlayMusicOnce() {
     const audio = document.getElementById('bgMusic');
     audio.volume = 0.25;
     audio.play().then(() => {
       document.getElementById('musicToggle').classList.add('playing');
       musicStarted = true;
-    }).catch(e => console.log('Audio autoplay prevented:', e));
-
-    goTo('name');
+    }).catch(() => {});
   }
 
   function startQuestions() {
@@ -1455,8 +1709,38 @@
     }
   }
 
+  // Soft chime sound using Web Audio API (no external files needed)
+  let audioCtx = null;
+  function playSoftChime() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      // Two-tone gentle chime
+      const playTone = (freq, startTime, duration) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.15, startTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      };
+      const now = audioCtx.currentTime;
+      playTone(880, now, 0.4);          // A5
+      playTone(1318.5, now + 0.08, 0.5); // E6 — minor third up, sounds "magical"
+    } catch (e) {
+      console.log('Chime synthesis failed:', e);
+    }
+  }
+
   function finishTest() {
     if (userGoals.length === 0) return;
+    playSoftChime();
     goTo('loading');
     const steps = [
       'Считаем уровень женственности',
@@ -1562,8 +1846,9 @@
     currentQ = 0;
     userAnswers = [];
     userGoals = [];
+    screenHistory = ['welcome'];
     document.getElementById('userName').value = '';
-    goTo('welcome');
+    goTo('welcome', false);
   }
 
   // Music control
@@ -1592,32 +1877,71 @@
     }
   }
 
-  // Open Instagram direct message
-  // ВАЖНО: замени 'your_instagram_username' на реальный @username Эльвиры
+  // Open Instagram message modal
+  let igMessageText = '';
   function openInstagramDM() {
-    const username = 'elvira_akhmetkhan'; // Instagram Эльвиры
     const archetype = document.getElementById('archetype').textContent;
     const score = document.getElementById('scoreNumber').textContent;
+    igMessageText = `Здравствуйте, Эльвира! Прошла тест на женственность, мой архетип — ${archetype} (${score}). Хочу записаться на занятия Камасутра Фитнес 🌹`;
 
-    // Pre-filled greeting message (user can copy if direct prefill doesn't work)
-    const message = `Здравствуйте! Прошла тест на женственность, мой архетип — ${archetype} (${score}). Хочу записаться на занятия Камасутра Фитнес 🌹`;
+    document.getElementById('igMessageBox').textContent = igMessageText;
 
-    // Copy message to clipboard so user can paste it
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(message).then(() => {
-        showToast('Сообщение скопировано — вставьте в директ');
-      }).catch(() => {
-        showToast('Открываем Instagram...');
-      });
+    // Reset copy button state
+    const copyBtn = document.getElementById('igCopyBtn');
+    copyBtn.classList.remove('copied');
+    document.getElementById('igCopyIcon').textContent = '⧉';
+    document.getElementById('igCopyText').textContent = 'СКОПИРОВАТЬ ТЕКСТ';
+
+    document.getElementById('igModal').classList.add('visible');
+  }
+
+  function copyIgMessage() {
+    const copyBtn = document.getElementById('igCopyBtn');
+
+    // Try modern clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(igMessageText).then(() => {
+        markCopied();
+      }).catch(() => fallbackCopy());
     } else {
-      showToast('Открываем Instagram...');
+      fallbackCopy();
     }
 
-    // Small delay so user sees the toast before redirect
-    setTimeout(() => {
-      const instagramURL = `https://ig.me/m/${username}`;
-      window.open(instagramURL, '_blank');
-    }, 800);
+    function fallbackCopy() {
+      // Fallback: temporary textarea + execCommand
+      const textarea = document.createElement('textarea');
+      textarea.value = igMessageText;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        markCopied();
+      } catch (e) {
+        // Last resort: tell user to copy manually
+        document.getElementById('igCopyText').textContent = 'ВЫДЕЛИ ТЕКСТ ВЫШЕ И СКОПИРУЙ';
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function markCopied() {
+      copyBtn.classList.add('copied');
+      document.getElementById('igCopyIcon').textContent = '✓';
+      document.getElementById('igCopyText').textContent = 'СКОПИРОВАНО';
+    }
+  }
+
+  function openInstagramApp() {
+    const username = 'elvira_akhmetkhan';
+    const instagramURL = `https://ig.me/m/${username}`;
+    window.open(instagramURL, '_blank');
+    // Keep modal open for 2 seconds in case user wants to copy text again
+    setTimeout(() => closeIgModal(), 2000);
+  }
+
+  function closeIgModal() {
+    document.getElementById('igModal').classList.remove('visible');
   }
 
   // Toast notification
