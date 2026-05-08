@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест женственности · Камасутра Фитнес</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: #0A0808;
+    background-image:
+      radial-gradient(ellipse at top, #1A1410 0%, #0A0808 50%),
+      radial-gradient(ellipse at bottom, #14100C 0%, #0A0808 60%);
+    min-height: 100vh;
+    color: #E8DCC4;
+    overflow-x: hidden;
+  }
+
+  .app {
+    max-width: 440px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+  }
+
+  /* Decorative gold blobs */
+  .bg-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-blob.one { background: #C9A961; width: 320px; height: 320px; top: -120px; right: -120px; }
+  .bg-blob.two { background: #8B6F2F; width: 280px; height: 280px; bottom: -100px; left: -100px; }
+
+  .screen {
+    position: relative;
+    z-index: 1;
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Gold gradient utility */
+  .gold-text {
+    background: linear-gradient(135deg, #E8C77C 0%, #C9A961 50%, #8B6F2F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* WELCOME SCREEN */
+  .welcome { padding-top: 50px; text-align: center; }
+
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    color: #C9A961;
+  }
+  .ornament .line {
+    height: 1px;
+    width: 50px;
+    background: linear-gradient(90deg, transparent, #C9A961, transparent);
+  }
+  .ornament .symbol {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    letter-spacing: 4px;
+  }
+
+  .welcome h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    color: #F5EBD3;
+  }
+  .welcome h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .welcome p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #A8A092;
+    margin-bottom: 36px;
+    padding: 0 8px;
+  }
+
+  .welcome-features {
+    background: linear-gradient(135deg, rgba(201,169,97,0.08), rgba(201,169,97,0.02));
+    border: 1px solid rgba(201,169,97,0.2);
+    border-radius: 20px;
+    padding: 22px 20px;
+    margin-bottom: 36px;
+  }
+  .feature-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 9px 0;
+    font-size: 14px;
+    color: #D4C9B0;
+  }
+  .feature-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #E8C77C, #8B6F2F);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0A0808;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* BUTTONS */
+  .btn {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #E8C77C 0%, #C9A961 50%, #8B6F2F 100%);
+    color: #0A0808;
+    box-shadow: 0 12px 32px rgba(201,169,97,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s;
+  }
+  .btn:hover::before { left: 100%; }
+  .btn:active { transform: scale(0.98); }
+
+  /* NAME SCREEN */
+  .name-screen { padding-top: 80px; text-align: center; }
+  .name-screen h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 400;
+    margin-bottom: 12px;
+    color: #F5EBD3;
+  }
+  .name-screen p {
+    color: #A8A092;
+    margin-bottom: 36px;
+    font-size: 14px;
+  }
+  .name-input {
+    width: 100%;
+    padding: 18px 20px;
+    border: 1px solid rgba(201,169,97,0.3);
+    background: rgba(255,255,255,0.03);
+    border-radius: 14px;
+    font-size: 16px;
+    font-family: inherit;
+    margin-bottom: 24px;
+    color: #F5EBD3;
+    transition: all 0.3s;
+  }
+  .name-input:focus {
+    outline: none;
+    border-color: #C9A961;
+    background: rgba(201,169,97,0.05);
+    box-shadow: 0 0 0 3px rgba(201,169,97,0.1);
+  }
+  .name-input::placeholder { color: #6B6356; }
+
+  /* QUESTION SCREEN */
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-top: 16px;
+  }
+  .progress-text {
+    font-size: 12px;
+    color: #C9A961;
+    font-weight: 500;
+    letter-spacing: 2px;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 2px;
+    background: rgba(201,169,97,0.15);
+    border-radius: 10px;
+    margin-left: 16px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8B6F2F, #E8C77C);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 8px rgba(201,169,97,0.5);
+  }
+
+  .question-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid rgba(201,169,97,0.15);
+    border-radius: 24px;
+    padding: 32px 26px;
+    margin-top: 24px;
+    backdrop-filter: blur(10px);
+  }
+  .question-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 72px;
+    font-weight: 300;
+    line-height: 1;
+    background: linear-gradient(135deg, #E8C77C, #8B6F2F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+  .question-text {
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 400;
+    margin-bottom: 28px;
+    color: #F5EBD3;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .answer-options { display: flex; flex-direction: column; gap: 10px; }
+  .answer-btn {
+    padding: 16px 18px;
+    border: 1px solid rgba(201,169,97,0.2);
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 400;
+    color: #D4C9B0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .answer-btn:hover {
+    border-color: rgba(201,169,97,0.5);
+    background: rgba(201,169,97,0.05);
+  }
+  .answer-btn.selected {
+    border-color: #C9A961;
+    background: linear-gradient(135deg, rgba(201,169,97,0.15), rgba(201,169,97,0.05));
+    color: #F5EBD3;
+  }
+  .answer-dot {
+    width: 18px; height: 18px;
+    border: 1.5px solid rgba(201,169,97,0.4);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .answer-btn.selected .answer-dot {
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    border-color: #E8C77C;
+    box-shadow: inset 0 0 0 2px #0A0808, 0 0 12px rgba(201,169,97,0.6);
+  }
+
+  /* GOALS SCREEN */
+  .goals-screen { padding-top: 28px; }
+  .goals-screen h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #F5EBD3;
+  }
+  .goals-screen h2 em {
+    font-style: italic;
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .goals-screen .subtitle {
+    text-align: center;
+    color: #A8A092;
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+  .goals-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .goal-chip {
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,169,97,0.2);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #D4C9B0;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .goal-chip:hover { border-color: rgba(201,169,97,0.4); }
+  .goal-chip.selected {
+    background: linear-gradient(135deg, rgba(201,169,97,0.15), rgba(201,169,97,0.05));
+    border-color: #C9A961;
+    color: #F5EBD3;
+  }
+  .goal-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(201,169,97,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .goal-chip.selected .goal-check {
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    border-color: #E8C77C;
+    color: #0A0808;
+    font-weight: 700;
+  }
+  .selection-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #C9A961;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
+  }
+
+  /* LOADING SCREEN */
+  .loading {
+    padding-top: 130px;
+    text-align: center;
+  }
+  .loading-circle {
+    width: 130px; height: 130px;
+    margin: 0 auto 36px;
+    position: relative;
+  }
+  .loading-circle::before, .loading-circle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #C9A961;
+    border-right-color: rgba(201,169,97,0.3);
+    animation: spin 1.8s linear infinite;
+  }
+  .loading-circle::after {
+    inset: 14px;
+    border-top-color: #E8C77C;
+    border-right-color: transparent;
+    animation-duration: 2.5s;
+    animation-direction: reverse;
+  }
+  .loading-circle .symbol {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #C9A961;
+    animation: pulse 1.8s ease-in-out infinite;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+  .loading h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    margin-bottom: 16px;
+    color: #F5EBD3;
+    font-weight: 400;
+  }
+  .loading-step {
+    color: #A8A092;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    min-height: 20px;
+    transition: opacity 0.3s;
+  }
+
+  /* RESULT SCREEN */
+  .result {
+    padding-top: 16px;
+    padding-bottom: 40px;
+  }
+  .result-hero {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .result-archetype {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    color: #C9A961;
+    margin-bottom: 14px;
+  }
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 10px;
+    color: #F5EBD3;
+  }
+  .result-title em {
+    font-style: italic;
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .result-name {
+    font-size: 13px;
+    color: #A8A092;
+    letter-spacing: 1px;
+  }
+
+  /* Score circle */
+  .score-circle-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .score-circle-wrap::before {
+    content: '';
+    position: absolute;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(201,169,97,0.15), transparent 60%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .score-circle {
+    width: 230px;
+    height: 230px;
+    position: relative;
+  }
+  .score-circle svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 12px rgba(201,169,97,0.4));
+  }
+  .score-bg-track {
+    fill: none;
+    stroke: rgba(201,169,97,0.12);
+    stroke-width: 8;
+  }
+  .score-fill-track {
+    fill: none;
+    stroke: url(#scoreGradient);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .score-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 76px;
+    font-weight: 400;
+    line-height: 1;
+    background: linear-gradient(135deg, #F5EBD3, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .score-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #C9A961;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  /* Metrics card */
+  .metrics-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid rgba(201,169,97,0.15);
+    border-radius: 20px;
+    padding: 24px 22px;
+    margin-bottom: 18px;
+  }
+  .metrics-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 22px;
+    color: #F5EBD3;
+    letter-spacing: 0.5px;
+  }
+  .metrics-card h3 em {
+    font-style: italic;
+    color: #C9A961;
+  }
+  .metric { margin-bottom: 18px; }
+  .metric:last-child { margin-bottom: 0; }
+  .metric-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .metric-name { color: #D4C9B0; }
+  .metric-value {
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+  }
+  .metric-bar {
+    height: 4px;
+    background: rgba(201,169,97,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .metric-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(90deg, #8B6F2F, #E8C77C);
+    box-shadow: 0 0 8px rgba(201,169,97,0.5);
+  }
+
+  /* Description card */
+  .description-card {
+    background: linear-gradient(135deg, rgba(201,169,97,0.05), rgba(201,169,97,0.01));
+    border: 1px solid rgba(201,169,97,0.15);
+    border-radius: 20px;
+    padding: 26px 24px;
+    margin-bottom: 18px;
+  }
+  .description-card .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 80px;
+    line-height: 0.4;
+    background: linear-gradient(135deg, #E8C77C, #8B6F2F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.8;
+    margin-bottom: 8px;
+  }
+  .description-card p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #D4C9B0;
+    margin-bottom: 14px;
+  }
+  .description-card p:last-child { margin-bottom: 0; }
+
+  /* CTA Card */
+  .cta-card {
+    background: linear-gradient(135deg, #1A1410 0%, #2A1F18 100%);
+    border: 1px solid rgba(201,169,97,0.3);
+    border-radius: 20px;
+    padding: 32px 26px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(201,169,97,0.25), transparent);
+    border-radius: 50%;
+  }
+  .cta-card::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(232,199,124,0.15), transparent);
+    border-radius: 50%;
+  }
+  .cta-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(201,169,97,0.2), rgba(201,169,97,0.05));
+    border: 1px solid rgba(201,169,97,0.3);
+    color: #E8C77C;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    color: #F5EBD3;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-card h3 em {
+    font-style: italic;
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cta-card .cta-subtitle {
+    font-size: 14px;
+    color: #A8A092;
+    margin-bottom: 22px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-benefits {
+    list-style: none;
+    margin-bottom: 26px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-benefits li {
+    padding: 7px 0;
+    font-size: 14px;
+    color: #D4C9B0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .cta-benefits li::before {
+    content: '✦';
+    color: #C9A961;
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 1px;
+  }
+  .cta-btn {
+    width: 100%;
+    padding: 17px;
+    background: linear-gradient(135deg, #E8C77C 0%, #C9A961 100%);
+    color: #0A0808;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+    box-shadow: 0 8px 24px rgba(201,169,97,0.3);
+  }
+  .cta-btn:active { transform: scale(0.98); }
+
+  /* Format options */
+  .format-options {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid rgba(201,169,97,0.15);
+    border-radius: 20px;
+    padding: 22px 20px;
+    margin-bottom: 18px;
+  }
+  .format-options h4 {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #C9A961;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .format-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(201,169,97,0.1);
+    font-size: 14px;
+  }
+  .format-row:last-child { border-bottom: none; }
+  .format-row .fmt-name { color: #F5EBD3; font-weight: 500; }
+  .format-row .fmt-sub { color: #6B6356; font-size: 12px; margin-top: 2px; }
+  .format-row .fmt-price {
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .restart-btn {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: none;
+    color: #6B6356;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 8px;
+    transition: color 0.2s;
+  }
+  .restart-btn:hover { color: #C9A961; }
+
+  /* Music toggle button */
+  .music-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201,169,97,0.2), rgba(201,169,97,0.05));
+    border: 1px solid rgba(201,169,97,0.3);
+    color: #C9A961;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+  }
+  .music-toggle:hover {
+    background: linear-gradient(135deg, rgba(201,169,97,0.3), rgba(201,169,97,0.1));
+    transform: scale(1.05);
+  }
+  .music-toggle.playing .music-icon-pause { display: block; }
+  .music-toggle.playing .music-icon-play { display: none; }
+  .music-toggle .music-icon-pause { display: none; }
+  .music-toggle.playing::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,97,0.4);
+    animation: pulseRing 2s ease-out infinite;
+  }
+  @keyframes pulseRing {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+
+  /* Music prompt on welcome */
+  .music-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 12px 18px;
+    background: rgba(201,169,97,0.06);
+    border: 1px solid rgba(201,169,97,0.2);
+    border-radius: 30px;
+    color: #C9A961;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+  .music-prompt:hover {
+    background: rgba(201,169,97,0.12);
+    border-color: rgba(201,169,97,0.4);
+  }
+  .music-prompt-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0A0808;
+    font-size: 12px;
+  }
+
+  /* Video placeholder in CTA */
+  .video-preview {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(135deg, #0A0808, #1A1410);
+    border: 1px solid rgba(201,169,97,0.3);
+    border-radius: 14px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .video-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, rgba(201,169,97,0.15), transparent 70%),
+      repeating-linear-gradient(45deg, rgba(201,169,97,0.03) 0 2px, transparent 2px 12px);
+  }
+  .video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8C77C, #C9A961);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0A0808;
+    font-size: 22px;
+    box-shadow: 0 0 30px rgba(201,169,97,0.5);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 2;
+  }
+  .video-preview:hover .video-play-btn { transform: translate(-50%, -50%) scale(1.1); }
+  .video-label {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    color: #C9A961;
+    font-size: 11px;
+    letter-spacing: 2px;
+    z-index: 2;
+    transition: opacity 0.3s;
+  }
+  .video-duration {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    color: #D4C9B0;
+    font-size: 11px;
+    background: rgba(0,0,0,0.5);
+    padding: 3px 8px;
+    border-radius: 4px;
+    z-index: 2;
+  }
+  #videoOverlay { transition: opacity 0.3s; }
+
+  /* Trainer card with photo */
+  .trainer-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(201,169,97,0.15);
+    position: relative;
+    z-index: 1;
+  }
+  .trainer-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2A1F18, #1A1410);
+    border: 2px solid #C9A961;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B6356;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .trainer-photo::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,97,0.3);
+  }
+  .trainer-info { flex: 1; }
+  .trainer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #F5EBD3;
+    margin-bottom: 3px;
+  }
+  .trainer-role {
+    font-size: 11px;
+    color: #C9A961;
+    letter-spacing: 1.5px;
+  }
+
+  /* Welcome hero photo placeholder */
+  .welcome-hero-photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: 380px;
+    background:
+      linear-gradient(180deg, transparent 30%, rgba(10,8,8,0.9) 100%),
+      linear-gradient(135deg, #2A1F18, #0A0808);
+    border-radius: 24px;
+    border: 1px solid rgba(201,169,97,0.2);
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 24px;
+  }
+  .welcome-hero-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg, rgba(201,169,97,0.04) 0 2px, transparent 2px 14px);
+  }
+  .welcome-hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center 40%, rgba(201,169,97,0.15), transparent 70%);
+  }
+  .photo-placeholder-label {
+    position: relative;
+    z-index: 1;
+    color: #6B6356;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, #1A1410, #2A1F18);
+    border: 1px solid rgba(201,169,97,0.4);
+    color: #F5EBD3;
+    padding: 14px 22px;
+    border-radius: 30px;
+    font-size: 13px;
+    z-index: 1000;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 24px rgba(201,169,97,0.2);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 90%;
+    text-align: center;
+  }
+  .toast.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast-icon {
+    color: #C9A961;
+    font-size: 16px;
+  }
+
+  /* Welcome ornament symbols */
+  .welcome-ornament {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .welcome-ornament-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    border: 1px solid rgba(201,169,97,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(201,169,97,0.1), transparent);
+  }
+  .welcome-ornament-icon span {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 32px;
+    background: linear-gradient(135deg, #E8C77C, #8B6F2F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blob one"></div>
+<div class="bg-blob two"></div>
+
+<!-- Floating music toggle -->
+<button class="music-toggle" id="musicToggle" onclick="toggleMusic()">
+  <span class="music-icon-play">♪</span>
+  <span class="music-icon-pause">❚❚</span>
+</button>
+
+<!-- Background music (royalty-free ethno-ambient style) -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_347111d654.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Result chime sound (plays once on result screen) -->
+<audio id="resultChime" preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_88faa1f59f.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✓</span>
+  <span id="toastText">Сообщение скопировано — вставьте в директ</span>
+</div>
+
+<div class="app">
+
+  <!-- WELCOME -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome">
+      <div class="welcome-hero-photo" style="background: #0A0808;">
+        <img src="elvira.jpg" alt="Эльвира Ахметхан" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:0;">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,8,8,0.1) 0%, rgba(10,8,8,0.3) 50%, rgba(10,8,8,0.95) 100%);z-index:1;"></div>
+        <div style="position:relative;z-index:2;text-align:center;padding-bottom:8px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;color:#F5EBD3;margin-bottom:4px;">Эльвира Ахметхан</div>
+          <div style="font-size:10px;letter-spacing:3px;color:#C9A961;">АВТОР МЕТОДИКИ</div>
+        </div>
+      </div>
+      <div class="ornament">
+        <div class="line"></div>
+        <div class="symbol">·</div>
+        <div class="line"></div>
+      </div>
+      <h1>Раскрой свою <em>женственность</em></h1>
+      <p>Авторский тест из 10 вопросов покажет твою женскую энергию, чувственность и зону роста</p>
+
+      <div class="welcome-features">
+        <div class="feature-row">
+          <div class="feature-icon">⏱</div>
+          <div>Займёт всего 2 минуты</div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon">✦</div>
+          <div>Персональная расшифровка результата</div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon">♡</div>
+          <div>Рекомендации, как раскрыть себя глубже</div>
+        </div>
+      </div>
+
+      <button class="btn" onclick="startJourney()">Начать путешествие</button>
+
+      <div class="music-prompt" id="musicPrompt" onclick="toggleMusic()">
+        <div class="music-prompt-icon" id="musicPromptIcon">♪</div>
+        <span id="musicPromptText">Атмосферная музыка включится автоматически</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAME -->
+  <div class="screen" id="screen-name">
+    <div class="name-screen">
+      <div class="ornament">
+        <div class="line"></div>
+        <div class="symbol">·</div>
+        <div class="line"></div>
+      </div>
+      <h2>Как тебя зовут?</h2>
+      <p>Чтобы сделать результат личным</p>
+      <input type="text" class="name-input" id="userName" placeholder="Твоё имя" maxlength="30">
+      <button class="btn" onclick="startQuestions()">Продолжить</button>
+    </div>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="screen" id="screen-question">
+    <div class="question-header">
+      <span class="progress-text" id="progressText">01 / 10</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
+    </div>
+    <div class="question-card">
+      <div class="question-num" id="questionNum">01</div>
+      <div class="question-text" id="questionText">Есть ли у вас желание каждый день делать себе макияж?</div>
+      <div class="answer-options" id="answerOptions"></div>
+    </div>
+  </div>
+
+  <!-- GOALS -->
+  <div class="screen" id="screen-goals">
+    <div class="goals-screen">
+      <div class="ornament">
+        <div class="line"></div>
+        <div class="symbol">·</div>
+        <div class="line"></div>
+      </div>
+      <h2>Что ты <em>хочешь</em> в себе изменить?</h2>
+      <p class="subtitle">Выбери до 3-х пунктов — для точных рекомендаций</p>
+      <div class="goals-grid" id="goalsGrid"></div>
+      <p class="selection-hint" id="selectionHint">ВЫБРАНО: 0 ИЗ 3</p>
+      <button class="btn" id="goalsContinueBtn" onclick="finishTest()" disabled style="opacity:0.4;">Получить результат</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="screen" id="screen-loading">
+    <div class="loading">
+      <div class="loading-circle"><div class="symbol">♀</div></div>
+      <h2>Анализируем твои ответы</h2>
+      <p class="loading-step" id="loadingStep">Считаем уровень женственности</p>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screen-result">
+    <div class="result">
+      <div class="result-hero">
+        <div class="ornament">
+          <div class="line"></div>
+          <div class="symbol">·</div>
+          <div class="line"></div>
+        </div>
+        <div class="result-archetype" id="archetype">РАСЦВЕТАЮЩАЯ ЖЕНЩИНА</div>
+        <div class="result-title">Твоя <em>женская энергия</em></div>
+        <div class="result-name" id="resultName">— вот что мы видим —</div>
+      </div>
+
+      <div class="score-circle-wrap">
+        <div class="score-circle">
+          <svg viewBox="0 0 230 230">
+            <defs>
+              <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#E8C77C"/>
+                <stop offset="50%" stop-color="#C9A961"/>
+                <stop offset="100%" stop-color="#8B6F2F"/>
+              </linearGradient>
+            </defs>
+            <circle class="score-bg-track" cx="115" cy="115" r="100"/>
+            <circle class="score-fill-track" id="scoreTrack" cx="115" cy="115" r="100"
+                    stroke-dasharray="628.3" stroke-dashoffset="628.3"/>
+          </svg>
+          <div class="score-center">
+            <div class="score-number" id="scoreNumber">0%</div>
+            <div class="score-label">ЖЕНСТВЕННОСТЬ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics-card">
+        <h3>Твой <em>профиль</em></h3>
+        <div class="metric">
+          <div class="metric-head">
+            <span class="metric-name">Внешняя женственность</span>
+            <span class="metric-value" id="m1Val">0%</span>
+          </div>
+          <div class="metric-bar"><div class="metric-fill" id="m1Fill" style="width:0%"></div></div>
+        </div>
+        <div class="metric">
+          <div class="metric-head">
+            <span class="metric-name">Чувственность и тело</span>
+            <span class="metric-value" id="m2Val">0%</span>
+          </div>
+          <div class="metric-bar"><div class="metric-fill" id="m2Fill" style="width:0%"></div></div>
+        </div>
+        <div class="metric">
+          <div class="metric-head">
+            <span class="metric-name">Внутренняя гармония</span>
+            <span class="metric-value" id="m3Val">0%</span>
+          </div>
+          <div class="metric-bar"><div class="metric-fill" id="m3Fill" style="width:0%"></div></div>
+        </div>
+        <div class="metric">
+          <div class="metric-head">
+            <span class="metric-name">Сексуальная энергия</span>
+            <span class="metric-value" id="m4Val">0%</span>
+          </div>
+          <div class="metric-bar"><div class="metric-fill" id="m4Fill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="description-card">
+        <div class="quote-mark">"</div>
+        <p id="descText1">У тебя уже есть прекрасная основа — ты осознаёшь себя как женщину и заботишься о своём образе.</p>
+        <p id="descText2">Зона роста — глубокая работа с телом и чувственностью. Именно здесь скрыт ресурс твоего магнетизма.</p>
+        <p id="descText3">С твоим запросом камасутра-фитнес даст результат за 4–6 недель.</p>
+      </div>
+
+      <div class="cta-card">
+        <span class="cta-tag">КАМАСУТРА ФИТНЕС</span>
+
+        <div class="trainer-row">
+          <div class="trainer-photo" style="background:none;">
+            <img src="elvira.jpg" alt="Эльвира" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;border-radius:50%;">
+          </div>
+          <div class="trainer-info">
+            <div class="trainer-name">Эльвира Ахметхан</div>
+            <div class="trainer-role">АВТОР МЕТОДИКИ</div>
+          </div>
+        </div>
+
+        <h3>Раскрой <em>женскую силу</em></h3>
+        <p class="cta-subtitle">Авторская методика, которая объединяет фитнес, чувственность и работу с женской энергией</p>
+
+        <div class="video-preview" id="videoPreview" onclick="playVideoDemo()">
+          <video id="demoVideo" muted loop playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:14px;">
+            <source src="elvira-class.mp4" type="video/mp4">
+          </video>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,8,8,0.2) 0%, rgba(10,8,8,0.5) 100%);border-radius:14px;pointer-events:none;" id="videoOverlay"></div>
+          <div class="video-play-btn" id="videoPlayBtn">▶</div>
+          <div class="video-label">ПОСМОТРЕТЬ ЗАНЯТИЕ</div>
+        </div>
+
+        <ul class="cta-benefits">
+          <li>Укрепишь интимные мышцы и осанку</li>
+          <li>Уйдут лишний вес и отёки</li>
+          <li>Повысится либидо и появится лёгкость</li>
+          <li>Проснётся настоящая любовь к себе</li>
+        </ul>
+        <button class="cta-btn" onclick="openInstagramDM()">
+          <span style="display:inline-flex;align-items:center;gap:10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+            Написать в Instagram
+          </span>
+        </button>
+      </div>
+
+      <div class="format-options">
+        <h4>ФОРМАТЫ ЗАНЯТИЙ</h4>
+        <div class="format-row">
+          <div>
+            <div class="fmt-name">Оффлайн в Алматы</div>
+            <div class="fmt-sub">Абонемент 8 занятий</div>
+          </div>
+          <span class="fmt-price">50 000 ₸</span>
+        </div>
+        <div class="format-row">
+          <div>
+            <div class="fmt-name">Онлайн видео-курс</div>
+            <div class="fmt-sub">Доступ навсегда</div>
+          </div>
+          <span class="fmt-price">35 000 ₸</span>
+        </div>
+        <div class="format-row">
+          <div>
+            <div class="fmt-name">Индивидуально</div>
+            <div class="fmt-sub">1 час персонально</div>
+          </div>
+          <span class="fmt-price">30 000 ₸</span>
+        </div>
+      </div>
+
+      <button class="restart-btn" onclick="restartTest()">Пройти тест заново</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const questions = [
+    { num: '01', text: 'Есть ли у вас желание каждый день делать себе макияж?', cat: 'looks' },
+    { num: '02', text: 'Хотите ли вы наряжаться и выглядеть красиво повседневно?', cat: 'looks' },
+    { num: '03', text: 'Необходимо ли вам окружать себя красивыми вещами?', cat: 'looks' },
+    { num: '04', text: 'Важно ли вам ложиться в чистую, красивую постель?', cat: 'inner' },
+    { num: '05', text: 'Ходите ли вы дома в опрятной, приятной для тела одежде?', cat: 'looks' },
+    { num: '06', text: 'Легко ли вы начинаете или завершаете намеченные цели?', cat: 'inner' },
+    { num: '07', text: 'Следите ли вы за своей осанкой и походкой?', cat: 'body' },
+    { num: '08', text: 'Улыбаетесь ли вы при приветствии?', cat: 'body' },
+    { num: '09', text: 'Работаете ли вы над своим телом?', cat: 'body' },
+    { num: '10', text: 'Уделяете ли вы время уходу за собой?', cat: 'looks' }
+  ];
+
+  const answers = [
+    { text: 'Никогда', val: 1 },
+    { text: 'Иногда', val: 2 },
+    { text: 'Часто', val: 3 },
+    { text: 'Всегда', val: 4 }
+  ];
+
+  const goalsList = [
+    'Внутреннее мироощущение',
+    'Уверенность в себе',
+    'Подтянутое тело',
+    'Лёгкость в теле и движениях',
+    'Научиться всегда улыбаться',
+    'Манкость и сексуальность',
+    'Привлекать внимание людей',
+    'Внутреннее спокойствие',
+    'Повысить либидо',
+    'Относиться ко всему легко'
+  ];
+
+  let currentQ = 0;
+  let userAnswers = [];
+  let userGoals = [];
+  let userName = '';
+
+  function goTo(screen) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + screen).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // Combined action: start music + go to name screen
+  function startJourney() {
+    // Try to start music (this is a user gesture, so it should work)
+    const audio = document.getElementById('bgMusic');
+    audio.volume = 0.25;
+    audio.play().then(() => {
+      document.getElementById('musicToggle').classList.add('playing');
+      musicStarted = true;
+    }).catch(e => console.log('Audio autoplay prevented:', e));
+
+    goTo('name');
+  }
+
+  function startQuestions() {
+    const name = document.getElementById('userName').value.trim();
+    userName = name || 'Красавица';
+    currentQ = 0;
+    userAnswers = [];
+    renderQuestion();
+    goTo('question');
+  }
+
+  function renderQuestion() {
+    const q = questions[currentQ];
+    document.getElementById('questionNum').textContent = q.num;
+    document.getElementById('questionText').textContent = q.text;
+    document.getElementById('progressText').textContent = q.num + ' / 10';
+    document.getElementById('progressFill').style.width = ((currentQ + 1) * 10) + '%';
+
+    const opts = document.getElementById('answerOptions');
+    opts.innerHTML = '';
+    answers.forEach((a) => {
+      const btn = document.createElement('button');
+      btn.className = 'answer-btn';
+      btn.innerHTML = '<div class="answer-dot"></div><span>' + a.text + '</span>';
+      btn.onclick = () => selectAnswer(a.val, btn);
+      opts.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(val, btn) {
+    document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    userAnswers.push({ q: questions[currentQ], val: val });
+    setTimeout(() => {
+      currentQ++;
+      if (currentQ < questions.length) {
+        renderQuestion();
+      } else {
+        renderGoals();
+        goTo('goals');
+      }
+    }, 350);
+  }
+
+  function renderGoals() {
+    userGoals = [];
+    const grid = document.getElementById('goalsGrid');
+    grid.innerHTML = '';
+    goalsList.forEach((g) => {
+      const chip = document.createElement('div');
+      chip.className = 'goal-chip';
+      chip.innerHTML = '<div class="goal-check">✓</div><span>' + g + '</span>';
+      chip.onclick = () => toggleGoal(g, chip);
+      grid.appendChild(chip);
+    });
+    updateGoalsState();
+  }
+
+  function toggleGoal(g, chip) {
+    const idx = userGoals.indexOf(g);
+    if (idx > -1) {
+      userGoals.splice(idx, 1);
+      chip.classList.remove('selected');
+    } else if (userGoals.length < 3) {
+      userGoals.push(g);
+      chip.classList.add('selected');
+    }
+    updateGoalsState();
+  }
+
+  function updateGoalsState() {
+    document.getElementById('selectionHint').textContent = 'ВЫБРАНО: ' + userGoals.length + ' ИЗ 3';
+    const btn = document.getElementById('goalsContinueBtn');
+    if (userGoals.length > 0) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    } else {
+      btn.disabled = true;
+      btn.style.opacity = '0.4';
+    }
+  }
+
+  function finishTest() {
+    if (userGoals.length === 0) return;
+    goTo('loading');
+    const steps = [
+      'Считаем уровень женственности',
+      'Определяем твой архетип',
+      'Готовим персональные рекомендации'
+    ];
+    let i = 0;
+    const stepEl = document.getElementById('loadingStep');
+    const interval = setInterval(() => {
+      i++;
+      if (i < steps.length) {
+        stepEl.style.opacity = '0';
+        setTimeout(() => { stepEl.textContent = steps[i]; stepEl.style.opacity = '1'; }, 200);
+      }
+    }, 1300);
+    setTimeout(() => {
+      clearInterval(interval);
+      calculateAndShowResult();
+    }, 4000);
+  }
+
+  function calculateAndShowResult() {
+    let looksSum = 0, looksMax = 0;
+    let bodySum = 0, bodyMax = 0;
+    let innerSum = 0, innerMax = 0;
+    userAnswers.forEach(a => {
+      if (a.q.cat === 'looks') { looksSum += a.val; looksMax += 4; }
+      if (a.q.cat === 'body') { bodySum += a.val; bodyMax += 4; }
+      if (a.q.cat === 'inner') { innerSum += a.val; innerMax += 4; }
+    });
+
+    const looksPct = Math.round((looksSum / looksMax) * 100);
+    const bodyPct = Math.round((bodySum / bodyMax) * 100);
+    const innerPct = Math.round((innerSum / innerMax) * 100);
+    const sexualPct = Math.round((bodyPct * 0.6) + (looksPct * 0.4));
+    const totalPct = Math.round(looksPct * 0.35 + bodyPct * 0.4 + innerPct * 0.25);
+
+    let archetype, descArr;
+    const goalText = (userGoals[0] || 'раскрытие женственности').toLowerCase();
+    if (totalPct < 41) {
+      archetype = 'СПЯЩАЯ БОГИНЯ';
+      descArr = [
+        userName + ', в тебе скрыт огромный потенциал, который только ждёт пробуждения. Сейчас женская энергия дремлет — но это не недостаток, это точка старта.',
+        'Зона роста — почти всё: от заботы о теле до внутреннего ощущения себя женщиной. Главное — начать, и изменения придут быстрее, чем ты думаешь.',
+        'С твоим запросом — ' + goalText + ' — камасутра-фитнес даст ощутимый результат уже через 3–4 недели регулярных занятий.'
+      ];
+    } else if (totalPct < 71) {
+      archetype = 'РАСЦВЕТАЮЩАЯ ЖЕНЩИНА';
+      descArr = [
+        userName + ', у тебя уже есть прекрасная основа — ты осознаёшь себя как женщину и заботишься о своём образе. Виден внутренний свет, который притягивает.',
+        'Зона роста — глубокая работа с телом и чувственностью. Именно здесь скрыт ресурс, который превратит женственность в настоящий магнетизм.',
+        'С твоим запросом — ' + goalText + ' — камасутра-фитнес даст результат за 4–6 недель: ты почувствуешь, как меняется походка, осанка, как просыпается либидо.'
+      ];
+    } else {
+      archetype = 'СИЯЮЩАЯ ЖЕНЩИНА';
+      descArr = [
+        userName + ', ты прекрасно осознаёшь свою женскую силу и умеешь ею пользоваться. Это редкое качество, которым обладает не каждая.',
+        'Зона роста — отполировать форму и поднять чувственность на пиковый уровень. Тебе уже не нужны базовые техники — ты готова к глубокой работе.',
+        'С твоим запросом — ' + goalText + ' — камасутра-фитнес станет следующей ступенью: после 6–8 недель ты выйдешь на новый уровень женского магнетизма.'
+      ];
+    }
+
+    document.getElementById('archetype').textContent = archetype;
+    document.getElementById('resultName').textContent = '— ' + userName + ', вот что мы видим —';
+    document.getElementById('descText1').textContent = descArr[0];
+    document.getElementById('descText2').textContent = descArr[1];
+    document.getElementById('descText3').textContent = descArr[2];
+
+    goTo('result');
+    playResultChime();
+
+    const circumference = 2 * Math.PI * 100;
+    const offset = circumference - (totalPct / 100) * circumference;
+    setTimeout(() => {
+      document.getElementById('scoreTrack').style.strokeDashoffset = offset;
+      animateNumber('scoreNumber', 0, totalPct, 1800, '%');
+      document.getElementById('m1Fill').style.width = looksPct + '%';
+      document.getElementById('m2Fill').style.width = bodyPct + '%';
+      document.getElementById('m3Fill').style.width = innerPct + '%';
+      document.getElementById('m4Fill').style.width = sexualPct + '%';
+      animateNumber('m1Val', 0, looksPct, 1400, '%');
+      animateNumber('m2Val', 0, bodyPct, 1400, '%');
+      animateNumber('m3Val', 0, innerPct, 1400, '%');
+      animateNumber('m4Val', 0, sexualPct, 1400, '%');
+    }, 200);
+  }
+
+  function animateNumber(id, from, to, duration, suffix) {
+    const el = document.getElementById(id);
+    const start = performance.now();
+    function step(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(from + (to - from) * eased);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function restartTest() {
+    currentQ = 0;
+    userAnswers = [];
+    userGoals = [];
+    document.getElementById('userName').value = '';
+    goTo('welcome');
+  }
+
+  // Music control
+  let musicStarted = false;
+  function toggleMusic(forceOn) {
+    const audio = document.getElementById('bgMusic');
+    const toggle = document.getElementById('musicToggle');
+    audio.volume = 0.25;
+
+    if (forceOn === true) {
+      audio.play().then(() => {
+        toggle.classList.add('playing');
+        musicStarted = true;
+      }).catch(e => console.log('Audio play prevented:', e));
+      return;
+    }
+
+    if (audio.paused) {
+      audio.play().then(() => {
+        toggle.classList.add('playing');
+        musicStarted = true;
+      }).catch(e => console.log('Audio play prevented:', e));
+    } else {
+      audio.pause();
+      toggle.classList.remove('playing');
+    }
+  }
+
+  // Open Instagram direct message
+  // ВАЖНО: замени 'your_instagram_username' на реальный @username Эльвиры
+  function openInstagramDM() {
+    const username = 'elvira_akhmetkhan'; // Instagram Эльвиры
+    const archetype = document.getElementById('archetype').textContent;
+    const score = document.getElementById('scoreNumber').textContent;
+
+    // Pre-filled greeting message (user can copy if direct prefill doesn't work)
+    const message = `Здравствуйте! Прошла тест на женственность, мой архетип — ${archetype} (${score}). Хочу записаться на занятия Камасутра Фитнес 🌹`;
+
+    // Copy message to clipboard so user can paste it
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(message).then(() => {
+        showToast('Сообщение скопировано — вставьте в директ');
+      }).catch(() => {
+        showToast('Открываем Instagram...');
+      });
+    } else {
+      showToast('Открываем Instagram...');
+    }
+
+    // Small delay so user sees the toast before redirect
+    setTimeout(() => {
+      const instagramURL = `https://ig.me/m/${username}`;
+      window.open(instagramURL, '_blank');
+    }, 800);
+  }
+
+  // Toast notification
+  function showToast(text) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastText').textContent = text;
+    toast.classList.add('visible');
+    setTimeout(() => toast.classList.remove('visible'), 3500);
+  }
+
+  // Play chime on result screen
+  function playResultChime() {
+    const chime = document.getElementById('resultChime');
+    chime.volume = 0.4;
+    chime.currentTime = 0;
+    chime.play().catch(e => console.log('Chime play prevented:', e));
+  }
+    const chime = document.getElementById('resultChime');
+    chime.volume = 0.4;
+    chime.currentTime = 0;
+    chime.play().catch(e => console.log('Chime play prevented:', e));
+  }
+
+  // Video demo control
+  function playVideoDemo() {
+    const video = document.getElementById('demoVideo');
+    const playBtn = document.getElementById('videoPlayBtn');
+    const overlay = document.getElementById('videoOverlay');
+    const label = document.querySelector('.video-label');
+
+    if (video.paused) {
+      // Pause background music when video plays
+      const bgMusic = document.getElementById('bgMusic');
+      if (!bgMusic.paused) {
+        video.dataset.musicWasPlaying = 'true';
+        bgMusic.pause();
+        document.getElementById('musicToggle').classList.remove('playing');
+      }
+
+      video.muted = false;
+      video.play().then(() => {
+        playBtn.style.opacity = '0';
+        overlay.style.opacity = '0.3';
+        if (label) label.style.opacity = '0';
+      }).catch(e => console.log('Video play prevented:', e));
+    } else {
+      video.pause();
+      playBtn.style.opacity = '1';
+      overlay.style.opacity = '1';
+      if (label) label.style.opacity = '1';
+
+      // Resume music if it was playing before
+      if (video.dataset.musicWasPlaying === 'true') {
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.play().catch(() => {});
+        document.getElementById('musicToggle').classList.add('playing');
+        video.dataset.musicWasPlaying = '';
+      }
+    }
+  }
+
+  // When video ends, restore music if needed
+  document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('demoVideo');
+    if (video) {
+      video.addEventListener('ended', () => {
+        document.getElementById('videoPlayBtn').style.opacity = '1';
+        document.getElementById('videoOverlay').style.opacity = '1';
+        const label = document.querySelector('.video-label');
+        if (label) label.style.opacity = '1';
+        if (video.dataset.musicWasPlaying === 'true') {
+          const bgMusic = document.getElementById('bgMusic');
+          bgMusic.play().catch(() => {});
+          document.getElementById('musicToggle').classList.add('playing');
+          video.dataset.musicWasPlaying = '';
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
