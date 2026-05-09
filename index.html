@@ -204,7 +204,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
-    padding-top: 16px;
+    padding-top: 56px;
   }
   .progress-text {
     font-size: 12px;
@@ -297,7 +297,7 @@
   }
 
   /* GOALS SCREEN */
-  .goals-screen { padding-top: 28px; }
+  .goals-screen { padding-top: 60px; }
   .goals-screen h2 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 32px;
@@ -428,7 +428,7 @@
 
   /* RESULT SCREEN */
   .result {
-    padding-top: 16px;
+    padding-top: 50px;
     padding-bottom: 40px;
   }
   .result-hero {
@@ -768,22 +768,23 @@
   /* Music toggle button */
   .music-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
+    top: 16px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(201,169,97,0.2), rgba(201,169,97,0.05));
-    border: 1px solid rgba(201,169,97,0.3);
-    color: #C9A961;
+    background: linear-gradient(135deg, rgba(201,169,97,0.35), rgba(201,169,97,0.15));
+    border: 1.5px solid rgba(201,169,97,0.6);
+    color: #E8C77C;
     cursor: pointer;
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     backdrop-filter: blur(10px);
     transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 20px rgba(201,169,97,0.15);
   }
   .music-toggle:hover {
     background: linear-gradient(135deg, rgba(201,169,97,0.3), rgba(201,169,97,0.1));
@@ -1110,27 +1111,28 @@
   /* Back button */
   .back-btn {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 44px;
-    height: 44px;
+    top: 16px;
+    left: 16px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(201,169,97,0.15), rgba(201,169,97,0.04));
-    border: 1px solid rgba(201,169,97,0.25);
-    color: #C9A961;
+    background: linear-gradient(135deg, rgba(201,169,97,0.35), rgba(201,169,97,0.15));
+    border: 1.5px solid rgba(201,169,97,0.6);
+    color: #E8C77C;
     cursor: pointer;
     z-index: 100;
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 22px;
     backdrop-filter: blur(10px);
     transition: all 0.3s;
     font-family: inherit;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 20px rgba(201,169,97,0.15);
   }
   .back-btn.visible { display: flex; }
   .back-btn:hover {
-    background: linear-gradient(135deg, rgba(201,169,97,0.25), rgba(201,169,97,0.08));
+    background: linear-gradient(135deg, rgba(201,169,97,0.5), rgba(201,169,97,0.25));
     transform: scale(1.05);
   }
   .back-btn:active { transform: scale(0.95); }
@@ -1205,9 +1207,10 @@
 <!-- Back button -->
 <button class="back-btn" id="backBtn" onclick="goBack()">←</button>
 
-<!-- Background music (royalty-free ethno-ambient style) -->
-<audio id="bgMusic" loop preload="auto">
-  <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_347111d654.mp3" type="audio/mpeg">
+<!-- Background music (поместите файл music.mp3 рядом с index.html) -->
+<audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline crossorigin="anonymous">
+  <source src="music.mp3" type="audio/mpeg">
+  <source src="music.m4a" type="audio/mp4">
 </audio>
 
 <!-- Result chime sound (plays once on result screen) -->
@@ -1591,42 +1594,135 @@
 
   // Combined action: start music + go to name screen
   function startJourney() {
-    // Reliable mobile autoplay: start muted first (always allowed), then unmute
+    startAtmosphere();
+    goTo('name');
+  }
+
+  // Atmospheric ambient music — synthesized in browser (100% works on iPhone)
+  let ambientNodes = null;
+  let ambientPlaying = false;
+
+  function startAtmosphere() {
+    // First try regular audio file
     const audio = document.getElementById('bgMusic');
     audio.volume = 0;
     audio.muted = false;
     const playPromise = audio.play();
+
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        // Gradually fade in volume
+        // External file works — use it
         let vol = 0;
         const fadeIn = setInterval(() => {
           vol += 0.025;
-          if (vol >= 0.25) {
-            vol = 0.25;
-            clearInterval(fadeIn);
-          }
+          if (vol >= 0.25) { vol = 0.25; clearInterval(fadeIn); }
           audio.volume = vol;
         }, 100);
         document.getElementById('musicToggle').classList.add('playing');
         musicStarted = true;
-      }).catch(e => {
-        console.log('Audio autoplay blocked:', e);
-        // Fallback: try once more on next user interaction
-        document.addEventListener('click', tryPlayMusicOnce, { once: true });
+      }).catch(() => {
+        // External file failed — use synthesized ambient
+        startSynthAmbient();
       });
+    } else {
+      startSynthAmbient();
     }
+  }
 
-    goTo('name');
+  function startSynthAmbient() {
+    if (ambientPlaying) return;
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      // Resume context if suspended (iOS requires this)
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Master gain for whole ambient
+      const masterGain = audioCtx.createGain();
+      masterGain.gain.value = 0;
+      masterGain.connect(audioCtx.destination);
+      // Fade in over 2 seconds
+      masterGain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 2);
+
+      // Drone bass (deep ethno-ambient foundation)
+      const drone1 = audioCtx.createOscillator();
+      drone1.type = 'sine';
+      drone1.frequency.value = 110; // A2 — deep, meditative
+      const drone1Gain = audioCtx.createGain();
+      drone1Gain.gain.value = 0.4;
+      drone1.connect(drone1Gain).connect(masterGain);
+      drone1.start();
+
+      // Second drone — perfect fifth above
+      const drone2 = audioCtx.createOscillator();
+      drone2.type = 'sine';
+      drone2.frequency.value = 164.81; // E3
+      const drone2Gain = audioCtx.createGain();
+      drone2Gain.gain.value = 0.25;
+      drone2.connect(drone2Gain).connect(masterGain);
+      drone2.start();
+
+      // Slow LFO for breathing effect
+      const lfo = audioCtx.createOscillator();
+      lfo.frequency.value = 0.1; // very slow
+      const lfoGain = audioCtx.createGain();
+      lfoGain.gain.value = 0.15;
+      lfo.connect(lfoGain).connect(drone2Gain.gain);
+      lfo.start();
+
+      // Periodic ethereal "bell" notes (minor pentatonic, sounds eastern/sensual)
+      const scale = [220, 261.63, 293.66, 329.63, 392, 440]; // A minor pentatonic
+      function playBell() {
+        if (!ambientPlaying) return;
+        const note = scale[Math.floor(Math.random() * scale.length)];
+        const bell = audioCtx.createOscillator();
+        bell.type = 'sine';
+        bell.frequency.value = note * 2; // octave higher
+        const bellGain = audioCtx.createGain();
+        const now = audioCtx.currentTime;
+        bellGain.gain.setValueAtTime(0, now);
+        bellGain.gain.linearRampToValueAtTime(0.05, now + 0.8);
+        bellGain.gain.exponentialRampToValueAtTime(0.001, now + 5);
+        bell.connect(bellGain).connect(masterGain);
+        bell.start(now);
+        bell.stop(now + 5);
+        // Schedule next bell
+        setTimeout(playBell, 4000 + Math.random() * 6000);
+      }
+      setTimeout(playBell, 1500);
+
+      ambientNodes = { masterGain, drone1, drone2, lfo };
+      ambientPlaying = true;
+      musicStarted = true;
+      document.getElementById('musicToggle').classList.add('playing');
+    } catch (e) {
+      console.log('Synth ambient failed:', e);
+    }
+  }
+
+  function stopSynthAmbient() {
+    if (!ambientPlaying || !ambientNodes) return;
+    try {
+      const now = audioCtx.currentTime;
+      ambientNodes.masterGain.gain.linearRampToValueAtTime(0, now + 0.5);
+      setTimeout(() => {
+        try {
+          ambientNodes.drone1.stop();
+          ambientNodes.drone2.stop();
+          ambientNodes.lfo.stop();
+        } catch (e) {}
+        ambientNodes = null;
+      }, 600);
+      ambientPlaying = false;
+    } catch (e) {}
   }
 
   function tryPlayMusicOnce() {
-    const audio = document.getElementById('bgMusic');
-    audio.volume = 0.25;
-    audio.play().then(() => {
-      document.getElementById('musicToggle').classList.add('playing');
-      musicStarted = true;
-    }).catch(() => {});
+    if (musicStarted) return;
+    startAtmosphere();
   }
 
   function startQuestions() {
@@ -1856,24 +1952,27 @@
   function toggleMusic(forceOn) {
     const audio = document.getElementById('bgMusic');
     const toggle = document.getElementById('musicToggle');
-    audio.volume = 0.25;
 
-    if (forceOn === true) {
-      audio.play().then(() => {
-        toggle.classList.add('playing');
-        musicStarted = true;
-      }).catch(e => console.log('Audio play prevented:', e));
+    // If synth ambient is playing, toggle it
+    if (ambientPlaying) {
+      stopSynthAmbient();
+      toggle.classList.remove('playing');
       return;
     }
 
-    if (audio.paused) {
+    // If audio file mode
+    if (!audio.paused) {
+      audio.pause();
+      toggle.classList.remove('playing');
+    } else {
+      audio.volume = 0.25;
       audio.play().then(() => {
         toggle.classList.add('playing');
         musicStarted = true;
-      }).catch(e => console.log('Audio play prevented:', e));
-    } else {
-      audio.pause();
-      toggle.classList.remove('playing');
+      }).catch(() => {
+        // File didn't work, use synth
+        startSynthAmbient();
+      });
     }
   }
 
@@ -1968,11 +2067,15 @@
     const label = document.querySelector('.video-label');
 
     if (video.paused) {
-      // Pause background music when video plays
+      // Pause whatever music is playing
       const bgMusic = document.getElementById('bgMusic');
       if (!bgMusic.paused) {
-        video.dataset.musicWasPlaying = 'true';
+        video.dataset.musicWasPlaying = 'file';
         bgMusic.pause();
+        document.getElementById('musicToggle').classList.remove('playing');
+      } else if (ambientPlaying) {
+        video.dataset.musicWasPlaying = 'synth';
+        stopSynthAmbient();
         document.getElementById('musicToggle').classList.remove('playing');
       }
 
@@ -1989,12 +2092,14 @@
       if (label) label.style.opacity = '1';
 
       // Resume music if it was playing before
-      if (video.dataset.musicWasPlaying === 'true') {
+      if (video.dataset.musicWasPlaying === 'file') {
         const bgMusic = document.getElementById('bgMusic');
         bgMusic.play().catch(() => {});
         document.getElementById('musicToggle').classList.add('playing');
-        video.dataset.musicWasPlaying = '';
+      } else if (video.dataset.musicWasPlaying === 'synth') {
+        startSynthAmbient();
       }
+      video.dataset.musicWasPlaying = '';
     }
   }
 
@@ -2007,12 +2112,14 @@
         document.getElementById('videoOverlay').style.opacity = '1';
         const label = document.querySelector('.video-label');
         if (label) label.style.opacity = '1';
-        if (video.dataset.musicWasPlaying === 'true') {
+        if (video.dataset.musicWasPlaying === 'file') {
           const bgMusic = document.getElementById('bgMusic');
           bgMusic.play().catch(() => {});
           document.getElementById('musicToggle').classList.add('playing');
-          video.dataset.musicWasPlaying = '';
+        } else if (video.dataset.musicWasPlaying === 'synth') {
+          startSynthAmbient();
         }
+        video.dataset.musicWasPlaying = '';
       });
     }
   });
