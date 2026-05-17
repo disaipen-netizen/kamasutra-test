@@ -494,8 +494,8 @@
     pointer-events: none;
   }
   .score-circle {
-    width: 230px;
-    height: 230px;
+    width: 170px;
+    height: 170px;
     position: relative;
   }
   .score-circle svg {
@@ -507,12 +507,12 @@
   .score-bg-track {
     fill: none;
     stroke: rgba(201,169,97,0.12);
-    stroke-width: 8;
+    stroke-width: 6;
   }
   .score-fill-track {
     fill: none;
     stroke: url(#scoreGradient);
-    stroke-width: 8;
+    stroke-width: 6;
     stroke-linecap: round;
     transition: stroke-dashoffset 1.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -527,7 +527,7 @@
   .score-number {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 76px;
+    font-size: 56px;
     font-weight: 400;
     line-height: 1;
     background: linear-gradient(135deg, #F5EBD3, #C9A961);
@@ -536,10 +536,10 @@
     background-clip: text;
   }
   .score-label {
-    font-size: 10px;
-    letter-spacing: 3px;
+    font-size: 9px;
+    letter-spacing: 2.5px;
     color: #C9A961;
-    margin-top: 8px;
+    margin-top: 6px;
     font-weight: 500;
   }
 
@@ -1220,10 +1220,14 @@
 <!-- Back button -->
 <button class="back-btn" id="backBtn" onclick="goBack()">←</button>
 
-<!-- Background music (поместите файл music.mp3 рядом с index.html) -->
-<audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline crossorigin="anonymous">
+<!-- Background music — восточная атмосфера, бесплатная коммерческая лицензия -->
+<audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline>
   <source src="music.mp3" type="audio/mpeg">
-  <source src="music.m4a" type="audio/mp4">
+</audio>
+
+<!-- Meditation audio file (бонус за прохождение) -->
+<audio id="meditationAudio" preload="none" playsinline webkit-playsinline>
+  <source src="meditation.mp3" type="audio/mpeg">
 </audio>
 
 <!-- Result chime sound (plays once on result screen) -->
@@ -1322,8 +1326,8 @@
   <!-- QUESTION -->
   <div class="screen" id="screen-question">
     <div class="question-header">
-      <span class="progress-text" id="progressText">01 / 10</span>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
+      <span class="progress-text" id="progressText">01 / 13</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:7.7%"></div></div>
     </div>
     <div class="question-card">
       <div class="question-num" id="questionNum">01</div>
@@ -1373,7 +1377,7 @@
 
       <div class="score-circle-wrap">
         <div class="score-circle">
-          <svg viewBox="0 0 230 230">
+          <svg viewBox="0 0 170 170">
             <defs>
               <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#E8C77C"/>
@@ -1381,9 +1385,9 @@
                 <stop offset="100%" stop-color="#8B6F2F"/>
               </linearGradient>
             </defs>
-            <circle class="score-bg-track" cx="115" cy="115" r="100"/>
-            <circle class="score-fill-track" id="scoreTrack" cx="115" cy="115" r="100"
-                    stroke-dasharray="628.3" stroke-dashoffset="628.3"/>
+            <circle class="score-bg-track" cx="85" cy="85" r="75"/>
+            <circle class="score-fill-track" id="scoreTrack" cx="85" cy="85" r="75"
+                    stroke-dasharray="471.2" stroke-dashoffset="471.2"/>
           </svg>
           <div class="score-center">
             <div class="score-number" id="scoreNumber">0%</div>
@@ -1511,16 +1515,23 @@
 
 <script>
   const questions = [
-    { num: '01', text: 'Есть ли у вас желание каждый день делать себе макияж?', cat: 'looks' },
-    { num: '02', text: 'Хотите ли вы наряжаться и выглядеть красиво повседневно?', cat: 'looks' },
-    { num: '03', text: 'Необходимо ли вам окружать себя красивыми вещами?', cat: 'looks' },
-    { num: '04', text: 'Важно ли вам ложиться в чистую, красивую постель?', cat: 'inner' },
-    { num: '05', text: 'Ходите ли вы дома в опрятной, приятной для тела одежде?', cat: 'looks' },
-    { num: '06', text: 'Легко ли вы начинаете или завершаете намеченные цели?', cat: 'inner' },
-    { num: '07', text: 'Следите ли вы за своей осанкой и походкой?', cat: 'body' },
-    { num: '08', text: 'Улыбаетесь ли вы при приветствии?', cat: 'body' },
-    { num: '09', text: 'Работаете ли вы над своим телом?', cat: 'body' },
-    { num: '10', text: 'Уделяете ли вы время уходу за собой?', cat: 'looks' }
+    // Блок 1 — Внешняя женственность
+    { num: '01', text: 'Делаешь ли ты себе макияж, даже если никуда не идёшь?', cat: 'looks' },
+    { num: '02', text: 'Хочется ли тебе наряжаться и выглядеть красиво каждый день?', cat: 'looks' },
+    { num: '03', text: 'Покупаешь ли ты вещи "для себя любимой" — красивое бельё, духи, украшения?', cat: 'looks' },
+    { num: '04', text: 'Носишь ли ты дома одежду, в которой чувствуешь себя женственно?', cat: 'looks' },
+    // Блок 2 — Чувственность и тело
+    { num: '05', text: 'Замечаешь ли ты, как мужчины оборачиваются тебе вслед?', cat: 'body' },
+    { num: '06', text: 'Чувствуешь ли ты своё тело — его движения, дыхание, температуру?', cat: 'body' },
+    { num: '07', text: 'Уделяешь ли ты время телу — массаж, уход, спорт?', cat: 'body' },
+    // Блок 3 — Сексуальная энергия (новые интимные)
+    { num: '08', text: 'Чувствуешь ли ты себя желанной?', cat: 'sexual' },
+    { num: '09', text: 'Получаешь ли ты удовольствие от близости?', cat: 'sexual' },
+    { num: '10', text: 'Бывает ли у тебя сильное сексуальное желание?', cat: 'sexual' },
+    // Блок 4 — Внутренняя гармония
+    { num: '11', text: 'Засыпаешь ли ты в хорошем настроении и любви к себе?', cat: 'inner' },
+    { num: '12', text: 'Легко ли ты доводишь до конца то, что начала?', cat: 'inner' },
+    { num: '13', text: 'Улыбаешься ли ты своему отражению в зеркале?', cat: 'inner' }
   ];
 
   const answers = [
@@ -1772,8 +1783,8 @@
     const q = questions[currentQ];
     document.getElementById('questionNum').textContent = q.num;
     document.getElementById('questionText').textContent = q.text;
-    document.getElementById('progressText').textContent = q.num + ' / 10';
-    document.getElementById('progressFill').style.width = ((currentQ + 1) * 10) + '%';
+    document.getElementById('progressText').textContent = q.num + ' / 13';
+    document.getElementById('progressFill').style.width = (((currentQ + 1) / 13) * 100) + '%';
 
     const opts = document.getElementById('answerOptions');
     opts.innerHTML = '';
@@ -1898,18 +1909,21 @@
   function calculateAndShowResult() {
     let looksSum = 0, looksMax = 0;
     let bodySum = 0, bodyMax = 0;
+    let sexualSum = 0, sexualMax = 0;
     let innerSum = 0, innerMax = 0;
     userAnswers.forEach(a => {
       if (a.q.cat === 'looks') { looksSum += a.val; looksMax += 4; }
       if (a.q.cat === 'body') { bodySum += a.val; bodyMax += 4; }
+      if (a.q.cat === 'sexual') { sexualSum += a.val; sexualMax += 4; }
       if (a.q.cat === 'inner') { innerSum += a.val; innerMax += 4; }
     });
 
     const looksPct = Math.round((looksSum / looksMax) * 100);
     const bodyPct = Math.round((bodySum / bodyMax) * 100);
+    const sexualPct = Math.round((sexualSum / sexualMax) * 100);
     const innerPct = Math.round((innerSum / innerMax) * 100);
-    const sexualPct = Math.round((bodyPct * 0.6) + (looksPct * 0.4));
-    const totalPct = Math.round(looksPct * 0.35 + bodyPct * 0.4 + innerPct * 0.25);
+    // Total: weighted average prioritizing sexual energy and body awareness
+    const totalPct = Math.round(looksPct * 0.2 + bodyPct * 0.3 + sexualPct * 0.3 + innerPct * 0.2);
 
     let archetype, descArr;
     const goalText = (userGoals[0] || 'раскрытие женственности').toLowerCase();
@@ -1957,7 +1971,7 @@
     goTo('result');
     playResultChime();
 
-    const circumference = 2 * Math.PI * 100;
+    const circumference = 2 * Math.PI * 75;
     const offset = circumference - (totalPct / 100) * circumference;
     setTimeout(() => {
       document.getElementById('scoreTrack').style.strokeDashoffset = offset;
