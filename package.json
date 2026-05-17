@@ -1,0 +1,9 @@
+{
+  "name": "kamasutra-ai-proxy",
+  "version": "1.0.0",
+  "description": "Claude API proxy for femininity test analysis",
+  "type": "module",
+  "engines": {
+    "node": ">=18.x"
+  }
+}
